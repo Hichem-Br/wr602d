@@ -1,3 +1,5 @@
+#!/bin/bash
+docker exec -i symfony-web-v2 bash -c "cat > /var/www/config/routes.yaml" <<'YAML_EOF'
 # config/routes.yaml
 
 app_login:
@@ -19,3 +21,4 @@ pdf_generation:
 history:
     path: /history
     controller: App\Controller\HistoryController::index
+YAML_EOF

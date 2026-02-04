@@ -1,11 +1,21 @@
-# yaml-language-server: $schema=../vendor/symfony/routing/Loader/schema/routing.schema.json
+# config/routes.yaml
 
-# This file is the entry point to configure the routes of your app.
-# Methods with the #[Route] attribute are automatically imported.
-# See also https://symfony.com/doc/current/routing.html
+app_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
 
-# To list all registered routes, run the following command:
-#   bin/console debug:router
+homepage:
+    path: /
+    controller: App\Controller\HomeController::index
 
-controllers:
-    resource: routing.controllers
+subscription_change:
+    path: /subscription/change
+    controller: App\Controller\SubscriptionController::changeSubscription
+
+pdf_generation:
+    path: /pdf/generate
+    controller: App\Controller\PdfController::generate
+
+history:
+    path: /history
+    controller: App\Controller\HistoryController::index

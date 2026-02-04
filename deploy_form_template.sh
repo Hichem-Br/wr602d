@@ -1,0 +1,21 @@
+#!/bin/bash
+docker exec -i symfony-web-v2 bash -c "cat > /var/www/templates/pdf/generate.html.twig" <<'TWIG_EOF'
+{% extends 'base.html.twig' %}
+
+{% block title %}Generate PDF{% endblock %}
+
+{% block body %}
+<div style="max-width: 600px; margin: 2rem auto; padding: 1rem;">
+    <h1>Generate PDF from URL</h1>
+
+    {{ form_start(form, {'attr': {'data-turbo': 'false'}}) }}
+        <div style="margin-bottom: 1rem;">
+            {{ form_label(form.url) }}
+            {{ form_widget(form.url, {'attr': {'style': 'width: 100%; padding: 0.5rem;'}}) }}
+            {{ form_errors(form.url) }}
+        </div>
+        <button type="submit" style="padding: 0.5rem 1rem; background-color: #007bff; color: white; border: none; cursor: pointer;">Generate PDF</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
+TWIG_EOF

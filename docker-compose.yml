@@ -15,19 +15,23 @@ services:
             - ./sites/:/etc/apache2/sites-enabled/
 
     db:
-        image: mariadb:10.8
-        container_name: symfony-db-v2
-        hostname: symfony-db-v2
+        image: mariadb:10.11
         restart: always
-
-        volumes:
-            - db-volume:/var/lib/mysql
-
         environment:
-            MYSQL_ROOT_PASSWORD: PASSWORD
+            MYSQL_ROOT_PASSWORD: '!ChangeMe!'
             MYSQL_DATABASE: symfony
             MYSQL_USER: symfony
             MYSQL_PASSWORD: PASSWORD
+        volumes:
+            - db-volume:/var/lib/mysql
+        ports:
+            - "3306:3306"
+
+    gotenberg:
+        image: gotenberg/gotenberg:8
+        restart: always
+        ports:
+            - "3000:3000"
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin

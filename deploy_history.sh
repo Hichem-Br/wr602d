@@ -1,3 +1,36 @@
+#!/bin/bash
+
+# History Controller
+docker exec -i symfony-web-v2 bash -c "cat > /var/www/src/Controller/HistoryController.php" <<'PHP_EOF'
+<?php
+
+namespace App\Controller;
+
+use App\Repository\GenerationRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
+#[IsGranted('ROLE_USER')]
+class HistoryController extends AbstractController
+{
+    #[Route('/history', name: 'app_history')]
+    public function index(GenerationRepository $generationRepository): Response
+    {
+        $user = $this->getUser();
+        $generations = $generationRepository->findBy(['user' => $user], ['createdAt' => 'DESC']);
+
+        return $this->render('history/index.html.twig', [
+            'generations' => $generations,
+        ]);
+    }
+}
+PHP_EOF
+
+# History Template
+docker exec -w /var/www symfony-web-v2 mkdir -p templates/history
+docker exec -i symfony-web-v2 bash -c "cat > /var/www/templates/history/index.html.twig" <<'TWIG_EOF'
 {% extends 'base.html.twig' %}
 
 {% block title %}History{% endblock %}
@@ -42,3 +75,4 @@
     </div>
 </div>
 {% endblock %}
+TWIG_EOF

@@ -1,3 +1,35 @@
+#!/bin/bash
+
+# Subscription Controller
+docker exec -i symfony-web-v2 bash -c "cat > /var/www/src/Controller/SubscriptionController.php" <<'PHP_EOF'
+<?php
+
+namespace App\Controller;
+
+use App\Repository\PlanRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
+#[IsGranted('ROLE_USER')]
+class SubscriptionController extends AbstractController
+{
+    #[Route('/subscription/change', name: 'app_subscription_change')]
+    public function changeSubscription(PlanRepository $planRepository): Response
+    {
+        $plans = $planRepository->findAll();
+
+        return $this->render('subscription/change.html.twig', [
+            'plans' => $plans,
+        ]);
+    }
+}
+PHP_EOF
+
+# Subscription Template
+docker exec -w /var/www symfony-web-v2 mkdir -p templates/subscription
+docker exec -i symfony-web-v2 bash -c "cat > /var/www/templates/subscription/change.html.twig" <<'TWIG_EOF'
 {% extends 'base.html.twig' %}
 
 {% block title %}Subscription Plans{% endblock %}
@@ -36,3 +68,4 @@
     {% endfor %}
 </div>
 {% endblock %}
+TWIG_EOF

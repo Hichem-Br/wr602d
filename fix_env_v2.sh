@@ -1,3 +1,5 @@
+#!/bin/bash
+docker exec -i symfony-web-v2 bash -c "cat > /var/www/.env" <<'ENV_EOF'
 # In all environments, the following files are loaded if they exist,
 # the latter taking precedence over the former:
 #
@@ -30,3 +32,4 @@ DATABASE_URL="mysql://symfony:PASSWORD@db:3306/symfony"
 ###< doctrine/doctrine-bundle ###
 
 DEFAULT_URI="http://localhost:8320"
+ENV_EOF

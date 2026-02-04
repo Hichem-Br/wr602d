@@ -52,12 +52,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $phone = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Plan $plan = null;
+
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserContact::class)]
     private Collection $contacts;
 
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
+    }
+
+    public function getPlan(): ?Plan
+    {
+        return $this->plan;
+    }
+
+    public function setPlan(?Plan $plan): static
+    {
+        $this->plan = $plan;
+
+        return $this;
     }
 
     public function getId(): ?int

@@ -1,3 +1,5 @@
+#!/bin/bash
+docker exec -i symfony-web-v2 bash -c "cat > /var/www/templates/base.html.twig" <<'TWIG_EOF'
 <!DOCTYPE html>
 <html>
     <head>
@@ -77,3 +79,4 @@
         </div>
     </body>
 </html>
+TWIG_EOF

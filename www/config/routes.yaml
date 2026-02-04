@@ -19,3 +19,7 @@ pdf_generation:
 history:
     path: /history
     controller: App\Controller\HistoryController::index
+
+app_register:
+    path: /register
+    controller: App\Controller\RegistrationController::register

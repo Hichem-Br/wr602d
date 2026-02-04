@@ -3,16 +3,72 @@
 {% block title %}Generate PDF{% endblock %}
 
 {% block body %}
-<div style="max-width: 600px; margin: 2rem auto; padding: 1rem;">
-    <h1>Generate PDF from URL</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Generate PDF</h1>
 
-    {{ form_start(form, {'attr': {'data-turbo': 'false'}}) }}
-        <div style="margin-bottom: 1rem;">
-            {{ form_label(form.url) }}
-            {{ form_widget(form.url, {'attr': {'style': 'width: 100%; padding: 0.5rem;'}}) }}
-            {{ form_errors(form.url) }}
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="generateTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="url-tab" data-bs-toggle="tab" data-bs-target="#url-pane" type="button" role="tab">From URL</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="file-tab" data-bs-toggle="tab" data-bs-target="#file-pane" type="button" role="tab">Upload File</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="wysiwyg-tab" data-bs-toggle="tab" data-bs-target="#wysiwyg-pane" type="button" role="tab">WYSIWYG Editor</button>
+                </li>
+            </ul>
         </div>
-        <button type="submit" style="padding: 0.5rem 1rem; background-color: #007bff; color: white; border: none; cursor: pointer;">Generate PDF</button>
-    {{ form_end(form) }}
+        <div class="card-body">
+            {{ form_start(form, {'attr': {'data-turbo': 'false'}}) }}
+                {{ form_errors(form) }}
+
+                <div class="tab-content" id="myTabContent">
+                    <!-- URL Tab -->
+                    <div class="tab-pane fade show active" id="url-pane" role="tabpanel" tabindex="0">
+                        <div class="mb-3">
+                            {{ form_label(form.url, 'Enter URL Website') }}
+                            {{ form_widget(form.url, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.url) }}
+                            <div class="form-text">Example: https://google.com</div>
+                        </div>
+                    </div>
+
+                    <!-- File Tab -->
+                    <div class="tab-pane fade" id="file-pane" role="tabpanel" tabindex="0">
+                        <div class="mb-3">
+                            {{ form_label(form.file, 'Upload Document') }}
+                            {{ form_widget(form.file, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.file) }}
+                            <div class="form-text">Supports PDF, DOCX, ODT, Images.</div>
+                        </div>
+                    </div>
+
+                    <!-- WYSIWYG Tab -->
+                    <div class="tab-pane fade" id="wysiwyg-pane" role="tabpanel" tabindex="0">
+                        <div class="mb-3">
+                            {{ form_label(form.html_content, 'Write Content') }}
+                            {{ form_widget(form.html_content, {'attr': {'class': 'form-control', 'id': 'editor'}}) }}
+                            {{ form_errors(form.html_content) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Generate PDF</button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
 </div>
+
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
 {% endblock %}

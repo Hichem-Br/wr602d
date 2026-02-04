@@ -1,3 +1,5 @@
+#!/bin/bash
+docker exec -i symfony-web-v2 bash -c "cat > /var/www/templates/pdf/generate.html.twig" <<'TWIG_EOF'
 {% extends 'base.html.twig' %}
 
 {% block title %}Generate PDF{% endblock %}
@@ -72,3 +74,4 @@
         });
 </script>
 {% endblock %}
+TWIG_EOF

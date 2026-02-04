@@ -1,3 +1,5 @@
+#!/bin/bash
+docker exec -i symfony-web-v2 bash -c "cat > /var/www/templates/home/index.html.twig" <<'TWIG_EOF'
 {% extends 'base.html.twig' %}
 
 {% block title %}Dashboard{% endblock %}
@@ -51,3 +53,4 @@
 </div>
 {% endif %}
 {% endblock %}
+TWIG_EOF

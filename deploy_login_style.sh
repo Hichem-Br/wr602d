@@ -1,3 +1,5 @@
+#!/bin/bash
+docker exec -i symfony-web-v2 bash -c "cat > /var/www/templates/security/login.html.twig" <<'TWIG_EOF'
 {% extends 'base.html.twig' %}
 
 {% block title %}Log in{% endblock %}
@@ -47,3 +49,4 @@
     </div>
 </div>
 {% endblock %}
+TWIG_EOF

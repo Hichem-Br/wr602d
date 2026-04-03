@@ -1,45 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in{% endblock %}
+{% block title %}Connexion - DocuPDF{% endblock %}
 
 {% block body %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6 col-lg-4">
-        <div class="card shadow-sm">
-            <div class="card-body p-4">
-                <form method="post">
-                    {% if error %}
-                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                    {% endif %}
-
-                    {% if app.user %}
-                        <div class="mb-3">
-                            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-                        </div>
-                    {% endif %}
-
-                    <h1 class="h3 mb-3 fw-normal text-center">Please sign in</h1>
-                    
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Email</label>
-                        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
+<div class="container fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="auth-card p-5 mt-5">
+                <div class="text-center mb-5">
+                    <h1 class="h3 mb-2">Bon retour</h1>
+                    <p class="text-muted">Veuillez entrer vos coordonnées pour vous connecter.</p>
+                </div>
+                
+                {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
                     </div>
-                    
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
+                {% endif %}
+
+                <form method="post">
+                    <div class="mb-4">
+                        <label for="username" class="form-label">E-mail</label>
+                        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" placeholder="nom@entreprise.com" required autofocus>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="form-label text-muted text-uppercase mb-2" style="font-size: 0.8rem; letter-spacing: 0.1em;">Mot de passe</label>
                         <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="remember_me" name="_remember_me">
+                            <label class="form-check-label small text-muted" for="remember_me">Se souvenir de moi</label>
+                        </div>
+                        <a href="{{ path('app_forgot_password_request') }}" class="small text-muted text-decoration-none">Mot de passe oublié ?</a>
                     </div>
 
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-primary btn-lg" type="submit">
-                            Sign in
-                        </button>
+                    <div class="d-grid mb-4">
+                        <button type="submit" class="btn btn-primary">Se connecter</button>
                     </div>
-                    
-                    <div class="text-center mt-3">
-                        <p class="small">Don't have an account? <a href="{{ path('app_register') }}">Register</a></p>
+
+                    <div class="text-center">
+                        <span class="text-muted small">Vous n'avez pas de compte ? </span>
+                        <a href="{{ path('app_register') }}" class="small text-dark fw-bold text-decoration-none">Créer un compte</a>
                     </div>
                 </form>
             </div>

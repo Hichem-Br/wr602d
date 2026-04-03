@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTimeInterface $dob = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -58,6 +58,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserContact::class)]
     private Collection $contacts;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripeCustomerId = null;
 
     public function __construct()
     {
@@ -111,6 +114,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+
+        if ($this->plan && $this->plan->getRole()) {
+            $roles[] = $this->plan->getRole();
+        }
 
         return array_unique($roles);
     }
@@ -186,7 +193,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->dob;
     }
 
-    public function setDob(\DateTimeInterface $dob): static
+    public function setDob(?\DateTimeInterface $dob): static
     {
         $this->dob = $dob;
 
@@ -255,6 +262,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $contact->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStripeCustomerId(): ?string
+    {
+        return $this->stripeCustomerId;
+    }
+
+    public function setStripeCustomerId(?string $stripeCustomerId): static
+    {
+        $this->stripeCustomerId = $stripeCustomerId;
 
         return $this;
     }

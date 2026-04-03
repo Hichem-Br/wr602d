@@ -1,38 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Subscription Plans{% endblock %}
+{% block title %}Forfaits - DocuPDF{% endblock %}
 
 {% block body %}
-<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-    <h1 class="display-4 fw-normal">Pricing</h1>
-    <p class="fs-5 text-muted">Choose the plan that fits your PDF generation needs.</p>
-</div>
+<div class="container fade-in mt-5">
+    <div class="text-center pricing-header">
+        <h1 class="display-4 fw-light mb-3">Tarification simple</h1>
+        <p class="text-muted lead">Choisissez la capacité qui correspond à votre flux de travail.</p>
+    </div>
 
-<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-    {% for plan in plans %}
-        <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm {{ plan.name == 'Enterprise' ? 'border-primary' : '' }}">
-                <div class="card-header py-3 {{ plan.name == 'Enterprise' ? 'text-bg-primary border-primary' : '' }}">
-                    <h4 class="my-0 fw-normal">{{ plan.name }}</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">${{ plan.price }}<small class="text-muted fw-light">/mo</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>{{ plan.limitGeneration }} PDFs / day</li>
-                        <li>Email support</li>
-                        <li>Help center access</li>
-                    </ul>
-                    <button type="button" class="w-100 btn btn-lg {{ plan.name == 'Enterprise' ? 'btn-primary' : 'btn-outline-primary' }}">
-                        Contact us
-                    </button>
-                    <!-- In a real app, this would submit a form to update the user's plan -->
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center justify-content-center">
+        {% for plan in plans %}
+            <div class="col">
+                <div class="card mb-4 rounded-3 h-100 {{ plan.name == 'Enterprise' ? 'border-dark' : '' }}">
+                    <div class="card-header py-3 {{ plan.name == 'Enterprise' ? 'text-bg-primary border-dark' : '' }}">
+                        <h4 class="my-0 fw-normal small text-uppercase letter-spacing-2 {% if plan.name == 'Enterprise' %}text-white{% endif %}">
+                            {{ plan.name == 'Enterprise' ? 'Entreprise' : plan.name }}
+                        </h4>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h1 class="card-title pricing-card-title">${{ plan.price }}<small class="text-muted fw-light">/mois</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4 flex-grow-1">
+                            <li><strong class="text-dark">{{ plan.limitGeneration }}</strong> PDF par jour</li>
+                            <li>Génération via URL & Fichier</li>
+                            <li>Support Standard</li>
+                            <li>SSL sécurisé</li>
+                            
+                            {# Features supplémentaires actives #}
+                            {% if plan.name == 'Premium' or plan.name == 'Enterprise' %}
+                                <li class="text-success fw-medium">Éditeur Riche & Markdown</li>
+                            {% endif %}
+                            {% if plan.name == 'Enterprise' %}
+                                <li class="text-success fw-medium">HTML Brut avec CSS</li>
+                            {% endif %}
+                            
+                            {# Features barrées en bas #}
+                            {% if plan.name != 'Premium' and plan.name != 'Enterprise' %}
+                                <li class="text-danger"><del>Éditeur Riche & Markdown</del></li>
+                            {% endif %}
+                            {% if plan.name != 'Enterprise' %}
+                                <li class="text-danger"><del>HTML Brut avec CSS</del></li>
+                            {% endif %}
+                        </ul>
+                        <div class="mt-auto">
+                            {% if app.user.plan.id == plan.id %}
+                                <button type="button" class="w-100 btn btn-lg btn-outline-secondary" disabled>Forfait actuel</button>
+                            {% else %}
+                                 <a href="{{ path('app_payment_checkout', {id: plan.id}) }}" class="w-100 btn btn-lg {{ plan.name == 'Enterprise' ? 'btn-primary' : 'btn-outline-primary' }}">
+                                    {{ plan.price > app.user.plan.price ? 'Mettre à niveau' : 'S\'abonner' }}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    {% else %}
-        <div class="col-12">
-            <p>No plans available.</p>
-        </div>
-    {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <p class="text-muted">Aucun forfait disponible pour le moment.</p>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

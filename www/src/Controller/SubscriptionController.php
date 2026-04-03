@@ -20,4 +20,5 @@ class SubscriptionController extends AbstractController
             'plans' => $plans,
         ]);
     }
+
 }

@@ -1,42 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Créer un compte - DocuPDF{% endblock %}
 
 {% block body %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6 col-lg-4">
-        <div class="card shadow-sm">
-            <div class="card-body p-4">
-                <h1 class="h3 mb-3 fw-normal text-center">Register</h1>
-                
-                <form method="post">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" name="email" id="email" class="form-control" required autofocus>
-                    </div>
+<div class="container fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="auth-card p-5 mt-5">
+                <div class="text-center mb-5">
+                    <h1 class="h3 mb-2">Créer un compte</h1>
+                    <p class="text-muted">Commencez votre voyage avec DocuPDF.</p>
+                </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="firstname" class="form-label">First Name</label>
-                            <input type="text" name="firstname" id="firstname" class="form-control" required>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <label for="firstname" class="form-label">Prénom</label>
+                            <input type="text" name="firstname" id="firstname" class="form-control" placeholder="Jeanne" required>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="lastname" class="form-label">Last Name</label>
-                            <input type="text" name="lastname" id="lastname" class="form-control" required>
+                        <div class="col-6">
+                            <label for="lastname" class="form-label">Nom</label>
+                            <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Dupont" required>
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" name="password" id="password" class="form-control" required>
+                    <div class="mb-4">
+                        <label for="email" class="form-label">Adresse e-mail</label>
+                        <input type="email" name="email" id="email" class="form-control" placeholder="nom@entreprise.com" required>
                     </div>
 
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-primary btn-lg" type="submit">Create Account</button>
+                    <div class="mb-4">
+                         <label for="password" class="form-label">Mot de passe</label>
+                         <input type="password" name="password" id="password" class="form-control" minlength="6" required>
                     </div>
 
-                    <div class="text-center mt-3">
-                        <p class="small">Already have an account? <a href="{{ path('app_login') }}">Log in</a></p>
+                    <div class="d-grid mb-4">
+                        <button class="btn btn-primary btn-lg" type="submit">Commencer</button>
+                    </div>
+
+                    <div class="text-center">
+                        <span class="text-muted small">Vous avez déjà un compte ? </span>
+                        <a href="{{ path('app_login') }}" class="small text-dark fw-bold text-decoration-none">Se connecter</a>
                     </div>
                 </form>
             </div>

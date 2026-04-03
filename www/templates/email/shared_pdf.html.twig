@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Un document a été partagé avec vous</title>
+</head>
+<body style="font-family: sans-serif; color: #333; line-height: 1.6;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h2 style="color: #0d6efd;">DocuPDF - Document partagé</h2>
+        <p>Bonjour {{ contact.firstname }} {{ contact.lastname }},</p>
+        <p><strong>{{ sender.email }}</strong> vous a partagé le document <strong>{{ filename }}</strong> via DocuPDF.</p>
+        <p>Vous trouverez le fichier en pièce jointe de cet e-mail.</p>
+        <br>
+        <p style="color: #6c757d; font-size: 0.9em;">L'équipe DocuPDF</p>
+    </div>
+</body>
+</html>

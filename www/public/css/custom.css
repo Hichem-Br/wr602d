@@ -1,0 +1,530 @@
+/* ========================================
+   WR602D - Ivory Luxury Design System
+   Inspired by Minimalist, High-Contrast Aesthetics
+   ======================================== */
+
+:root {
+    /* Primary Colors - Monochrome */
+    --primary-black: #111111;
+    --primary-white: #FFFFFF;
+    --off-white: #F9F9F9;
+
+    /* Text Colors */
+    --text-main: #111111;
+    --text-muted: #666666;
+    --text-light: #999999;
+
+    /* Accents & Borders */
+    --border-light: #E5E5E5;
+    --border-dark: #111111;
+    --accent-gray: #F2F2F2;
+
+    /* Functional */
+    --success: #111111;
+    /* Success is just "Done" in minimalist */
+    --error: #FF3333;
+    /* Keep red for critical errors but muted */
+    --warning: #FFCC00;
+
+    /* Shadows - Very subtle or none */
+    --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.03);
+    --shadow-hover: 0 10px 40px rgba(0, 0, 0, 0.06);
+
+    /* Typography */
+    --font-main: 'Inter', sans-serif;
+    /* Setup for easy swap to 'Manrope' or similar */
+
+    /* Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-pill: 50px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    background: var(--off-white);
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ========================================
+   TYPOGRAPHY
+   ======================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--text-main);
+}
+
+h1 {
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-weight: 300;
+    /* Lighter weight for elegance */
+    letter-spacing: -0.04em;
+}
+
+h2 {
+    font-size: clamp(2rem, 3vw, 3rem);
+    font-weight: 400;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    color: var(--text-muted);
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* ========================================
+   NAVBAR - Minimalist
+   ======================================== */
+
+.navbar {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-light);
+    padding: 1.5rem 0;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--primary-black) !important;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+}
+
+.nav-link {
+    color: var(--text-muted) !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin: 0 1rem;
+    transition: color 0.3s ease;
+    position: relative;
+    padding: 0 !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary-black) !important;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--primary-black);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* ========================================
+   HERO SECTION - Clean & Spacious
+   ======================================== */
+
+.hero-section {
+    background: transparent;
+    padding: 8rem 0 4rem;
+    text-align: left;
+    /* Align left for more editorial look */
+    position: relative;
+}
+
+.hero-title {
+    font-size: clamp(3.5rem, 6vw, 5.5rem) !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.05em !important;
+    background: linear-gradient(135deg, #111111 0%, #666666 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.05 !important;
+    margin-bottom: 1.5rem;
+}
+
+.hero-subtitle {
+    color: #555555;
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    max-width: 600px;
+}
+
+/* ========================================
+   FLOATING DOCUMENTS (HERO VISUAL)
+   ======================================== */
+
+@keyframes float {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(2deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+@keyframes float-delayed {
+    0% {
+        transform: translateY(0px) rotate(-6deg) scale(0.9);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(-3deg) scale(0.9);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(-6deg) scale(0.9);
+    }
+}
+
+.pdf-visual-container {
+    position: relative;
+    height: 400px;
+    /* Reduced from 450px to fit better */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0.9);
+    /* Scale down slightly to fit the container without breaking out */
+}
+
+.floating-doc {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.1);
+    width: 260px;
+    /* Reduced from 280px */
+    height: 360px;
+    /* Reduced from 380px */
+    position: absolute;
+    padding: 24px;
+    /* Reduced from 30px */
+    display: flex;
+    flex-direction: column;
+}
+
+.doc-1 {
+    z-index: 2;
+    animation: float 6s ease-in-out infinite;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 0.95) 100%);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.doc-2 {
+    z-index: 1;
+    right: 30px;
+    top: 50px;
+    opacity: 0.7;
+    animation: float-delayed 7s ease-in-out infinite;
+    background: #fdfdfd;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.doc-header {
+    height: 48px;
+    width: 48px;
+    background: var(--primary-black);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.doc-line {
+    height: 8px;
+    background: #E5E5E5;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.doc-badge {
+    background: var(--off-white);
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-black);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border-light);
+}
+
+/* ========================================
+   CARDS - Border & Whitespace
+   ======================================== */
+
+.card {
+    background: var(--primary-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    box-shadow: none;
+    /* Flat design */
+    transition: all 0.4s ease;
+    padding: 1rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-sm);
+    border-color: var(--primary-black);
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin: 4rem 0;
+}
+
+.card-body {
+    padding: 2rem;
+    text-align: left;
+}
+
+.card-icon {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-black);
+}
+
+.card h3 {
+    font-size: 1.25rem;
+    color: var(--primary-black);
+    margin-bottom: 0.5rem;
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 600;
+}
+
+.card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* ========================================
+   BUTTONS - High Contrast
+   ======================================== */
+
+.btn {
+    border-radius: var(--radius-pill);
+    padding: 0.8rem 2rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.btn-primary {
+    background: var(--primary-black);
+    color: var(--primary-white);
+    border-color: var(--primary-black);
+}
+
+.btn-primary:hover {
+    background: transparent;
+    color: var(--primary-black);
+}
+
+.btn-outline-primary {
+    background: transparent;
+    color: var(--primary-black);
+    border-color: var(--border-light);
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-black);
+    color: var(--primary-white) !important;
+    border-color: var(--primary-black);
+}
+
+.btn-lg {
+    padding: 1rem 2.5rem;
+    font-size: 1rem;
+}
+
+/* ========================================
+   FORMS - Line & Minimal
+   ======================================== */
+
+.form-control {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-light);
+    border-radius: 0;
+    padding: 1rem 0;
+    font-size: 1rem;
+    color: var(--primary-black);
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-bottom-color: var(--primary-black);
+    background: transparent;
+}
+
+.form-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+
+/* ========================================
+   BADGES & ALERTS
+   ======================================== */
+
+.badge {
+    padding: 0.4em 0.8em;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.bg-success {
+    background: var(--accent-gray) !important;
+    color: var(--primary-black);
+    border: 1px solid var(--border-light);
+}
+
+
+/* ========================================
+   UTILITIES
+   ======================================== */
+
+.text-gradient {
+    /* No gradients in minimalist design */
+    background: none;
+    -webkit-text-fill-color: initial;
+    color: var(--primary-black);
+}
+
+.fade-in {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   TABLES - Minimalist
+   ======================================== */
+
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--text-main);
+    border-color: var(--border-light);
+}
+
+.table> :not(caption)>*>* {
+    padding: 1rem 0;
+    border-bottom-color: var(--border-light);
+}
+
+.table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--primary-black) !important;
+}
+
+.table td {
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+.table-hover>tbody>tr:hover>* {
+    --bs-table-accent-bg: var(--off-white);
+    color: var(--text-main);
+}
+
+/* ========================================
+   PRICING - Clean
+   ======================================== */
+
+.pricing-header {
+    margin-bottom: 4rem;
+}
+
+.pricing-card-title {
+    font-size: 3rem;
+    font-weight: 300;
+    letter-spacing: -0.05em;
+    margin-bottom: 1.5rem;
+}
+
+.pricing-card-title small {
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+.list-unstyled li {
+    margin-bottom: 0.75rem;
+    color: var(--text-muted);
+}
+
+.card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--border-light);
+    padding: 1.5rem;
+}
+
+.text-bg-primary {
+    background: var(--primary-black) !important;
+    color: var(--primary-white) !important;
+}

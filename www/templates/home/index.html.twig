@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Générateur PDF - Votre solution PDF créative{% endblock %}
+
+{% block body %}
+
+{# Hero Section - Minimalist & Editorial #}
+<div class="hero-section fade-in">
+    <div class="row align-items-center">
+        <div class="col-lg-6">
+            <h1 class="hero-title">Votre Créateur<br>de PDF<br>Professionnel.</h1>
+            <p class="hero-subtitle">Créez, convertissez et gérez vos documents PDF rapidement et en toute sécurité. Une solution simple pour tous vos besoins documentaires.</p>
+            
+            {% if not is_granted('ROLE_USER') %}
+                <div class="d-flex gap-3 mt-5">
+                    <a href="{{ path('app_login') }}" class="btn btn-primary">Commencer gratuitement</a>
+                    <a href="{{ path('app_register') }}" class="btn btn-outline-primary">Créer un compte</a>
+                </div>
+            {% else %}
+                <div class="mt-5">
+                   <p class="text-muted text-uppercase" style="letter-spacing: 0.1em; font-size: 0.8rem;">Bienvenue sur votre espace, {{ app.user.firstname }}</p>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-5 offset-lg-1 d-none d-lg-flex justify-content-center align-items-center fade-in position-relative" style="animation-delay: 0.2s;">
+            <div class="pdf-visual-container pe-none">
+                <div class="floating-doc doc-2">
+                    <div class="doc-header"></div>
+                    <div class="doc-body">
+                         <div class="doc-line w-100"></div>
+                         <div class="doc-line w-75"></div>
+                    </div>
+                </div>
+                <div class="floating-doc doc-1">
+                    <div class="doc-header shadow-sm"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+                    <div class="doc-body mt-4">
+                         <div class="doc-line w-75"></div>
+                         <div class="doc-line w-100"></div>
+                         <div class="doc-line w-100"></div>
+                         <div class="doc-line w-50"></div>
+                    </div>
+                    <div class="doc-badge mt-auto"><i class="bi bi-shield-check text-success"></i> Sécurisé</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if is_granted('ROLE_USER') %}
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 border-bottom pb-4">
+                 <h2 style="font-size: 1.5rem; letter-spacing: -0.02em;">Tableau de bord</h2>
+            </div>
+        </div>
+
+        <div class="card-grid">
+            {# Generate PDF Card #}
+            <div class="card fade-in">
+                <div class="card-body">
+                    <div class="card-icon"><i class="bi bi-file-earmark-plus"></i></div>
+                    <h3>Générer</h3>
+                    <p>Convertissez une URL, des fichiers ou créez à partir de zéro.</p>
+                    <a href="{{ path('app_pdf_dashboard') }}" class="btn btn-outline-primary w-100 mt-3">Accéder à l'outil</a>
+                </div>
+            </div>
+
+            {# History Card #}
+            <div class="card fade-in" style="animation-delay: 0.1s;">
+                 <div class="card-body">
+                    <div class="card-icon"><i class="bi bi-archive"></i></div>
+                    <h3>Archives</h3>
+                    <p>Consultez et téléchargez vos documents précédents.</p>
+                    <a href="{{ path('app_history') }}" class="btn btn-outline-primary w-100 mt-3">Voir l'historique</a>
+                </div>
+            </div>
+
+            {# Subscription Card #}
+            <div class="card fade-in" style="animation-delay: 0.2s;">
+                 <div class="card-body">
+                    <div class="card-icon"><i class="bi bi-credit-card"></i></div>
+                    <h3>Abonnement</h3>
+                    <p>Gérez votre forfait et vos limites d'utilisation.</p>
+                    <a href="{{ path('app_subscription_change') }}" class="btn btn-outline-primary w-100 mt-3">Gérer le forfait</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% else %}
+    {# Minimal Feature List #}
+    <div class="container my-5 py-5 border-top">
+        <div class="row g-5">
+            <div class="col-md-4 fade-in">
+                <h3>01. Vitesse</h3>
+                <p class="text-muted">Moteur de rendu optimisé pour des résultats instantanés.</p>
+            </div>
+            <div class="col-md-4 fade-in" style="animation-delay: 0.1s;">
+                <h3>02. Design</h3>
+                <p class="text-muted">Des rendus propres qui respectent votre formatage d'origine.</p>
+            </div>
+            <div class="col-md-4 fade-in" style="animation-delay: 0.2s;">
+                <h3>03. Confidentialité</h3>
+                <p class="text-muted">Chiffrement de niveau entreprise pour vos données.</p>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

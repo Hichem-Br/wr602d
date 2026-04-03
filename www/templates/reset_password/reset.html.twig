@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réinitialiser votre mot de passe{% endblock %}
+
+{% block body %}
+    <div class="row align-items-center justify-content-center vh-100">
+        <div class="col-md-6 col-lg-5">
+            <div class="auth-card shadow-lg">
+                <div class="auth-header">
+                    <h2 class="auth-title">Définir un nouveau mot de passe</h2>
+                </div>
+                <div class="auth-body">
+                    {{ form_start(resetForm) }}
+                        <div class="mb-3">
+                             <label for="{{ resetForm.plainPassword.first.vars.id }}" class="form-label text-dark">Nouveau mot de passe</label>
+                            {{ form_widget(resetForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'Nouveau mot de passe'}}) }}
+                            <small class="text-danger">{{ form_errors(resetForm.plainPassword.first) }}</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ resetForm.plainPassword.second.vars.id }}" class="form-label text-dark">Répéter le mot de passe</label>
+                            {{ form_widget(resetForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Répéter le nouveau mot de passe'}}) }}
+                        </div>
+
+                        <button class="btn btn-primary w-100 btn-lg shadow-sm" type="submit">Réinitialiser le mot de passe</button>
+                    {{ form_end(resetForm) }}
+                      <div class="text-center mt-3">
+                        <a href="{{ path('app_login') }}" class="text-secondary text-decoration-none">Retour à la connexion</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

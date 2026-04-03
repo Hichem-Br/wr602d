@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Capture d'écran - DocuPDF{% endblock %}
+
+{% block body %}
+<div class="row min-vh-100 flex-center">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="card p-4 p-md-5">
+            <h2 class="h3 mb-4">Capture d'écran d'une URL</h2>
+            
+            {{ include('_flash_messages.html.twig', ignore_missing = true) }}
+            
+            <form action="{{ path('app_pdf_screenshot') }}" method="POST">
+                <div class="mb-4">
+                    <label for="urlInput" class="form-label text-muted small text-uppercase">Adresse de la page web (URL)</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-globe2 text-muted"></i></span>
+                        <input type="url" class="form-control border-start-0 ps-0" id="urlInput" name="url" placeholder="https://www.exemple.com" required>
+                    </div>
+                    <div class="form-text">Entrez l'URL complète incluant http:// ou https://</div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-camera me-2"></i>Capturer en PNG
+                </button>
+            </form>
+            
+            <div class="text-center mt-4">
+                <a href="{{ path('app_pdf_dashboard') }}" class="text-muted text-decoration-none small">
+                    <i class="bi bi-arrow-left me-1"></i>Retour au tableau de bord
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

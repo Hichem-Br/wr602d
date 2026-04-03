@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20260204144612 extends AbstractMigration
+final class Version20260327150834 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,16 +20,14 @@ final class Version20260204144612 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE user ADD plan_id INT NOT NULL');
-        $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649E899029B FOREIGN KEY (plan_id) REFERENCES plan (id)');
-        $this->addSql('CREATE INDEX IDX_8D93D649E899029B ON user (plan_id)');
+        $this->addSql('ALTER TABLE plan ADD stripe_price_id VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE user ADD stripe_customer_id VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `user` DROP FOREIGN KEY FK_8D93D649E899029B');
-        $this->addSql('DROP INDEX IDX_8D93D649E899029B ON `user`');
-        $this->addSql('ALTER TABLE `user` DROP plan_id');
+        $this->addSql('ALTER TABLE plan DROP stripe_price_id');
+        $this->addSql('ALTER TABLE `user` DROP stripe_customer_id');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\GenerationRepository;
+use App\Repository\UserContactRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -12,13 +13,15 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class HistoryController extends AbstractController
 {
     #[Route('/history', name: 'app_history')]
-    public function index(GenerationRepository $generationRepository): Response
+    public function index(GenerationRepository $generationRepository, UserContactRepository $contactRepository): Response
     {
         $user = $this->getUser();
         $generations = $generationRepository->findBy(['user' => $user], ['createdAt' => 'DESC']);
+        $contacts = $contactRepository->findBy(['user' => $user]);
 
         return $this->render('history/index.html.twig', [
             'generations' => $generations,
+            'contacts'    => $contacts,
         ]);
     }
 }

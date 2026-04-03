@@ -1,0 +1,56 @@
+#!/bin/bash
+docker exec -i symfony-web-v2 bash -c "cat > /var/www/templates/home/index.html.twig" <<'TWIG_EOF'
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold">PDF Generator Service</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Generate high-quality PDFs from URLs, Files, or custom content instantly.</p>
+        {% if not is_granted('ROLE_USER') %}
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="{{ path('app_register') }}" class="btn btn-primary btn-lg px-4 gap-3">Get Started</a>
+                <a href="{{ path('app_login') }}" class="btn btn-outline-secondary btn-lg px-4">Log In</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if is_granted('ROLE_USER') %}
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="bi bi-file-earmark-pdf display-4 text-primary mb-3"></i>
+                <h5 class="card-title">Generate PDF</h5>
+                <p class="card-text">Convert URLs, upload files, or write content to generate PDFs.</p>
+                <a href="{{ path('pdf_generation') }}" class="btn btn-primary">Start Generating</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="bi bi-clock-history display-4 text-secondary mb-3"></i>
+                <h5 class="card-title">History</h5>
+                <p class="card-text">View and download your past generated documents.</p>
+                <a href="{{ path('history') }}" class="btn btn-outline-secondary">View History</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="bi bi-credit-card display-4 text-success mb-3"></i>
+                <h5 class="card-title">Subscription</h5>
+                <p class="card-text">Manage your plan and usage limits.</p>
+                <a href="{{ path('subscription_change') }}" class="btn btn-outline-success">Manage Plan</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+TWIG_EOF

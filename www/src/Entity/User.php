@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTimeInterface $dob = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -52,12 +52,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $phone = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Plan $plan = null;
+
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserContact::class)]
     private Collection $contacts;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripeCustomerId = null;
 
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
+    }
+
+    public function getPlan(): ?Plan
+    {
+        return $this->plan;
+    }
+
+    public function setPlan(?Plan $plan): static
+    {
+        $this->plan = $plan;
+
+        return $this;
     }
 
     public function getId(): ?int
@@ -95,6 +114,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+
+        if ($this->plan && $this->plan->getRole()) {
+            $roles[] = $this->plan->getRole();
+        }
 
         return array_unique($roles);
     }
@@ -170,7 +193,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->dob;
     }
 
-    public function setDob(\DateTimeInterface $dob): static
+    public function setDob(?\DateTimeInterface $dob): static
     {
         $this->dob = $dob;
 
@@ -239,6 +262,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $contact->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStripeCustomerId(): ?string
+    {
+        return $this->stripeCustomerId;
+    }
+
+    public function setStripeCustomerId(?string $stripeCustomerId): static
+    {
+        $this->stripeCustomerId = $stripeCustomerId;
 
         return $this;
     }

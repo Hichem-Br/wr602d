@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HTML vers PDF - DocuPDF{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #htmlContent::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            opacity: 1; /* Override browser defaults */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container fade-in mt-5">
+    <div class="row align-items-center mb-5">
+        <div class="col">
+            <h1 class="h2">HTML brut vers PDF</h1>
+            <p class="text-muted">Collez votre code HTML complet (avec balises et styles) pour générer un PDF sur mesure.</p>
+        </div>
+        <div class="col-auto">
+            <a href="{{ path('app_pdf_dashboard') }}" class="btn btn-outline-primary d-flex align-items-center gap-2">
+                <i class="bi bi-arrow-left"></i> Retour
+            </a>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card p-4">
+                <form action="{{ path('app_pdf_html') }}" method="POST">
+                    <div class="mb-4">
+                        <label for="htmlContent" class="form-label text-muted text-uppercase mb-2" style="font-size: 0.8rem; letter-spacing: 0.1em;">Code HTML</label>
+                        <textarea class="form-control" name="content" id="htmlContent" rows="15" placeholder="<!DOCTYPE html>&#10;<html>&#10;<head>&#10;  <style> h1 { color: blue; } </style>&#10;</head>&#10;<body>&#10;  <h1>Hello World</h1>&#10;</body>&#10;</html>" required style="font-family: monospace; background: #1a1a1a; color: #00ff00; padding: 1rem; border-radius: var(--radius-md); resize: vertical;"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary d-flex align-items-center gap-2">
+                        <i class="bi bi-file-earmark-pdf"></i> Générer le PDF
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

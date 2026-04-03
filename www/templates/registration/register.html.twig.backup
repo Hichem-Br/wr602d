@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="h3 mb-3 fw-normal text-center">Register</h1>
+                
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" name="email" id="email" class="form-control" required autofocus>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstname" class="form-label">First Name</label>
+                            <input type="text" name="firstname" id="firstname" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastname" class="form-label">Last Name</label>
+                            <input type="text" name="lastname" id="lastname" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" required>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary btn-lg" type="submit">Create Account</button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <p class="small">Already have an account? <a href="{{ path('app_login') }}">Log in</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

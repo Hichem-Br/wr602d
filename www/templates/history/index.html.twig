@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique - DocuPDF{% endblock %}
+
+{% block body %}
+<div class="container fade-in mt-5">
+    <div class="row mb-4 align-items-end">
+        <div class="col-md-8">
+            <h1 class="h2">Historique</h1>
+            <p class="text-muted">Archives de vos documents générés.</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            {% if generations is not empty %}
+                <a href="{{ path('app_pdf_dashboard') }}" class="btn btn-primary">
+                    <i class="bi bi-plus-lg me-2"></i>Nouveau PDF
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card p-0" style="border: none; background: transparent;">
+        <div class="card-body p-0">
+            {% if generations is empty %}
+                <div class="text-center py-5">
+                    <div class="mb-3 text-muted" style="font-size: 3rem;"><i class="bi bi-inbox"></i></div>
+                    <h3 class="text-dark">Aucun document pour l'instant</h3>
+                    <p class="text-muted mb-4">Créez votre premier PDF pour le voir ici.</p>
+                    <a href="{{ path('app_pdf_dashboard') }}" class="btn btn-primary">Générer un PDF</a>
+                </div>
+            {% else %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Nom du document</th>
+                                <th>Statut</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for generation in generations %}
+                                <tr>
+                                    <td class="text-muted">{{ generation.createdAt ? generation.createdAt|date('M d, Y') : '' }} <small class="d-block">{{ generation.createdAt ? generation.createdAt|date('H:i') : '' }}</small></td>
+                                    <td class="fw-medium">{{ generation.file }}</td>
+                                    <td><span class="badge rounded-pill fw-normal" style="background: #E8F5E9; color: #1B5E20;">Prêt</span></td>
+                                    <td class="text-end">
+                                        <a href="{{ path('app_pdf_download', {'id': generation.id}) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                            Télécharger
+                                        </a>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 ms-1"
+                                            data-bs-toggle="modal" data-bs-target="#shareModal"
+                                            data-generation-id="{{ generation.id }}"
+                                            data-filename="{{ generation.file }}">
+                                            <i class="bi bi-share me-1"></i>Partager
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{# Share Modal #}
+<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="shareModalLabel"><i class="bi bi-share me-2"></i>Partager</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" id="shareForm">
+                <input type="hidden" name="_token" value="{{ csrf_token('share') }}">
+                <div class="modal-body">
+                    <p class="text-muted mb-3">Fichier : <strong id="shareFilename"></strong></p>
+                    <div class="mb-3">
+                        <label for="contact_id" class="form-label">Sélectionner un contact</label>
+                        <select name="contact_id" id="contact_id" class="form-select" required>
+                            <option value="">-- Choisir un contact --</option>
+                            {% for contact in contacts %}
+                                <option value="{{ contact.id }}">{{ contact.firstname }} {{ contact.lastname }} ({{ contact.email }})</option>
+                            {% endfor %}
+                        </select>
+                        {% if contacts is empty %}
+                            <p class="form-text text-warning mt-2">Aucun contact. <a href="{{ path('app_contact_new') }}">Ajoutez-en un d'abord.</a></p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-send me-2"></i>Envoyer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('shareModal').addEventListener('show.bs.modal', function (event) {
+    const btn = event.relatedTarget;
+    document.getElementById('shareFilename').textContent = btn.getAttribute('data-filename');
+    document.getElementById('shareForm').action = '/pdf/' + btn.getAttribute('data-generation-id') + '/share';
+});
+</script>
+{% endblock %}

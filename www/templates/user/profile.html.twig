@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil - DocuPDF{% endblock %}
+
+{% block body %}
+<div class="container fade-in mt-5 pb-5">
+    <div class="row">
+        <!-- User Info Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm" style="background: #fff;">
+                <div class="card-body text-center p-4">
+                    <div class="mb-4 position-relative d-inline-block">
+                        {% if app.user.photo %}
+                             <img src="{{ asset('uploads/photos/' ~ app.user.photo) }}" alt="Profile Photo" class="rounded-circle img-thumbnail border-0 shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
+                        {% else %}
+                            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto shadow-inner" style="width: 150px; height: 150px;">
+                                <i class="bi bi-person display-4 text-secondary"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <h3 class="card-title fw-bold mb-1">{{ app.user.firstname }} {{ app.user.lastname }}</h3>
+                    <p class="text-muted mb-3">{{ app.user.email }}</p>
+                    
+                    <div class="d-grid gap-2">
+                         <span class="badge bg-black text-white py-2 text-uppercase" style="letter-spacing: 0.1em;">
+                             {{ app.user.plan ? app.user.plan.name : 'Forfait Gratuit' }}
+                        </span>
+                        <a href="{{ path('app_subscription_change') }}" class="btn btn-outline-dark btn-sm rounded-pill">Gérer l'abonnement</a>
+                    </div>
+                    
+                    <hr class="my-4 op-2">
+                    
+                    <div class="text-start small">
+                        <div class="mb-2"><strong class="text-dark">Membre depuis :</strong> <span class="text-muted">Nécessite CreatedAt</span></div>
+                        <div class="mb-2"><strong class="text-dark">Téléphone :</strong> <span class="text-muted">{{ app.user.phone|default('Non défini') }}</span></div>
+                        <div class="mb-2"><strong class="text-dark">Date de naissance :</strong> <span class="text-muted">{{ app.user.dob ? app.user.dob|date('Y-m-d') : 'Non définie' }}</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings & Password -->
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-transparent py-3 border-bottom">
+                    <h5 class="mb-0 fw-semibold">Informations du Profil</h5>
+                </div>
+                <div class="card-body p-4">
+                    {{ form_start(profileForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(profileForm.firstname, {
+                                    'attr': {'class': 'form-control bg-light border-0', 'placeholder': 'Votre prénom'},
+                                    'label_attr': {'class': 'form-label fw-medium'}
+                                }) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(profileForm.lastname, {
+                                    'attr': {'class': 'form-control bg-light border-0', 'placeholder': 'Votre nom'},
+                                    'label_attr': {'class': 'form-label fw-medium'}
+                                }) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(profileForm.phone, {
+                                    'attr': {'class': 'form-control bg-light border-0', 'placeholder': 'Votre téléphone'},
+                                    'label_attr': {'class': 'form-label fw-medium'}
+                                }) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(profileForm.dob, {
+                                    'attr': {'class': 'form-control bg-light border-0'},
+                                    'label_attr': {'class': 'form-label fw-medium'}
+                                }) }}
+                            </div>
+                        </div>
+                        <div class="row align-items-end">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(profileForm.photo, {
+                                    'attr': {'class': 'form-control bg-light border-0'},
+                                    'label_attr': {'class': 'form-label fw-medium'}
+                                }) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(profileForm.favorite_color, {
+                                    'attr': {'class': 'form-control form-control-color bg-light border-0', 'style': 'height: 40px; width: 100%;'},
+                                    'label_attr': {'class': 'form-label fw-medium'}
+                                }) }}
+                            </div>
+                        </div>
+                        
+                        <div class="mt-2 text-end">
+                            <button type="submit" class="btn btn-primary px-4">Sauvegarder le profil</button>
+                        </div>
+                    {{ form_end(profileForm) }}
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-transparent py-3 border-bottom">
+                    <h5 class="mb-0 fw-semibold">Paramètres de sécurité</h5>
+                </div>
+                <div class="card-body p-4">
+                    <h6 class="text-muted text-uppercase small mb-4 fw-bold" style="letter-spacing: 0.05em;">Changer le mot de passe</h6>
+                    {{ form_start(changePasswordForm) }}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(changePasswordForm.plainPassword.first, {
+                                    'attr': {'class': 'form-control bg-light border-0'},
+                                    'label_attr': {'class': 'form-label fw-medium'}
+                                }) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(changePasswordForm.plainPassword.second, {
+                                    'attr': {'class': 'form-control bg-light border-0'},
+                                    'label_attr': {'class': 'form-label fw-medium'}
+                                }) }}
+                            </div>
+                        </div>
+                        
+                        <div class="mt-2 text-end">
+                            <button type="submit" class="btn btn-primary px-4">Mettre à jour le mot de passe</button>
+                        </div>
+                    {{ form_end(changePasswordForm) }}
+                </div>
+            </div>
+            
+            <!-- Future Activity or Contacts Teaser -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1 fw-semibold">Contacts</h5>
+                        <p class="text-muted mb-0 small">Gérez votre carnet d'adresses pour un accès rapide.</p>
+                    </div>
+                    <a href="{{ path('app_contact_index') }}" class="btn btn-outline-dark rounded-pill">Gérer les contacts</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
